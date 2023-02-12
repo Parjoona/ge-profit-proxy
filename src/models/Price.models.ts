@@ -4,6 +4,11 @@ export interface ICurrentPriceResponse {
   };
 }
 
+export interface ICurrentPriceMapped {
+  id: number;
+  price: ICurrentPriceModel;
+}
+
 export interface ICurrentPriceModel {
   high: number;
   highTime: number;
