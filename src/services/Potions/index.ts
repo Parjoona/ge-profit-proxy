@@ -1,5 +1,7 @@
+import { IPotionOptions } from 'src/models/Potions.models';
 import { ICurrentPriceResponse } from 'src/models/Price.models';
-import PotionsRanarr from './Potions.ranarr';
+import { createPotionBase } from '../../utils/Potions/potion-helpers';
+import recipes from '../../utils/Potions/potionRecipe';
 
 const PotionService = ({ data }: ICurrentPriceResponse) => {
   const mapped = Object.entries(data).map(([key, value]) => ({
@@ -7,9 +9,13 @@ const PotionService = ({ data }: ICurrentPriceResponse) => {
     price: value,
   }));
 
-  const ranarr = PotionsRanarr(mapped);
+  const potionBase = createPotionBase(mapped);
 
-  return { ranarr };
+  const allRecipies = recipes.map(({ name, ...rest }) => {
+    return potionBase(name, rest as IPotionOptions);
+  });
+
+  return allRecipies;
 };
 
 export default PotionService;
